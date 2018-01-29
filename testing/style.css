@@ -1,0 +1,25 @@
+.dropdown:hover>.dropdown-menu {
+    display: block;
+}
+
+li.dropdown-submenu:hover>.dropdown-menu {
+    display: block;
+}
+
+.submenu-left {
+    left: auto;
+    right: 0;
+}
+
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu .dropdown-menu {
+    top: 0;
+    left: 100%;
+}
+
+.cushin-left {
+    margin-left: 5%;
+}
