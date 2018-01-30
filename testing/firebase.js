@@ -9,19 +9,15 @@ var config = {
 };
 firebase.initializeApp(config);
 
-// Get a reference to the database service
-var database = firebase.database();
-/**
- * Handles the sign in button press.
- */
+
 function toggleSignIn() {
     if (firebase.auth().currentUser) {
         // [START signout]
         firebase.auth().signOut();
         // [END signout]
     } else {
-        var email = $('#email').value;
-        var password = $('#password').value;
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
         if (email.length < 4) {
             alert('Please enter an email address.');
             return;
@@ -43,19 +39,19 @@ function toggleSignIn() {
                 alert(errorMessage);
             }
             console.log(error);
-            $('.signIn').disabled = false;
+            document.getElementById('signIn').disabled = false;
             // [END_EXCLUDE]
         });
         // [END authwithemail]
     }
-    $('.signIn').disabled = true;
+    document.getElementById('signIn').disabled = true;
 }
 /**
  * Handles the sign up button press.
  */
 function handleSignUp() {
-    var email = $('#email').value;
-    var password = $('#password').value;
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
     if (email.length < 4) {
         alert('Please enter an email address.');
         return;
@@ -78,8 +74,6 @@ function handleSignUp() {
         }
         console.log(error);
         // [END_EXCLUDE]
-        email = "";
-        password = "";
     });
     // [END createwithemail]
 }
@@ -98,7 +92,7 @@ function sendEmailVerification() {
 }
 
 function sendPasswordReset() {
-    var email = $('#email').value;
+    var email = document.getElementById('email').value;
     // [START sendpasswordemail]
     firebase.auth().sendPasswordResetEmail(email).then(function() {
         // Password Reset Email Sent!
@@ -129,9 +123,6 @@ function initApp() {
     // Listening for auth state changes.
     // [START authstatelistener]
     firebase.auth().onAuthStateChanged(function(user) {
-        // [START_EXCLUDE silent]
-        $('#quickstart-verify-email').disabled = true;
-        // [END_EXCLUDE]
         if (user) {
             // User is signed in.
             var displayName = user.displayName;
@@ -142,30 +133,30 @@ function initApp() {
             var uid = user.uid;
             var providerData = user.providerData;
             // [START_EXCLUDE]
-            $('#quickstart-sign-in-status').textContent = 'Signed in';
-            $('#signIn').textContent = 'Sign out';
-            $('#quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
+            document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
+            document.getElementById('signIn').textContent = 'Sign out';
+            document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
             if (!emailVerified) {
-                $('#quickstart-verify-email').disabled = false;
+                document.getElementById('quickstart-verify-email').disabled = false;
             }
             // [END_EXCLUDE]
         } else {
             // User is signed out.
             // [START_EXCLUDE]
-            $('#quickstart-sign-in-status').textContent = 'Signed out';
-            $('.signIn').textContent = 'Sign in';
-            $('#quickstart-account-details').textContent = 'null';
+            document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
+            document.getElementById('signIn').textContent = 'Sign in';
+            document.getElementById('quickstart-account-details').textContent = 'null';
             // [END_EXCLUDE]
         }
         // [START_EXCLUDE silent]
-        $('.signIn').disabled = false;
+        document.getElementById('signIn').disabled = false;
         // [END_EXCLUDE]
     });
     // [END authstatelistener]
-    $('.signIn').on('click', toggleSignIn, false);
-    $('.signUp').on('click', handleSignUp, false);
-    $('#quickstart-verify-email').on('click', sendEmailVerification, false);
-    $('.forgotPassword').on('click', sendPasswordReset, false);
+    document.getElementById('signIn').addEventListener('click', toggleSignIn, false);
+    document.getElementById('signUp').addEventListener('click', handleSignUp, false);
+    document.getElementById('forgotPassword').addEventListener('click', sendPasswordReset, false);
 }
-
-$(".signUp").on('click', initApp)
+window.onload = function() {
+    initApp();
+};
